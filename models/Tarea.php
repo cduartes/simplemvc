@@ -68,6 +68,35 @@ class Tarea {
         ));
     }
 
+    public static function mostrarTareaUsuario($tarea_id, $user_id){
+        $query = "SELECT * FROM tarea WHERE tarea_id = ? AND usuario_id = ?";
+        $ps = Config::$dbh->prepare($query);
+        $res = $ps->execute(array(
+                                $tarea_id,
+                                $user_id
+        ));
+
+        if($res){
+            echo "<script>console.log( 'res: " . $res . "' );</script>";
+            $result = new Tarea($ps->fetch());
+        }
+        return $result;
+    }
+
+    public static function mostrarTareaAdmin($tarea_id){
+        $query = "SELECT * FROM tarea WHERE tarea_id = ?";
+        $ps = Config::$dbh->prepare($query);
+        $res = $ps->execute(array(
+                                $tarea_id
+        ));
+
+        if($res){
+            echo "<script>console.log( 'res: " . $res . "' );</script>";
+            $result = new Tarea($ps->fetch());
+        }
+        return $result;
+    }
+
     public function getId() {
         return $this->id;
     }

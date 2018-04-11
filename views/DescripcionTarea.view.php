@@ -2,7 +2,7 @@
 
 class TareaView {
 
-    public function render($paramTareas, $estados) { ?>
+    public function render($tarea, $estados) { ?>
         <html>
             <head>
                 <title>Todo Listo! / <?php echo $_SESSION["username"];?></title>

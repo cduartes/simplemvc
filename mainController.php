@@ -48,6 +48,7 @@ function require_admin_login() {
 
 require("controllers/LoginController.php");
 require("controllers/TareaController.php");
+//require("controllers/DetalleTareaController.php");
 
 session_start();
 $controller = null;
@@ -93,6 +94,14 @@ switch($path) {
         $id_tarea = $_GET["id"];
         echo "<script>console.log( 'id: " . $id_tarea . "' );</script>";
         $controller->eliminarTarea($id_tarea);
+        break;
+
+    case '/tarea':
+        require_login();
+        $controller = new TareaController();
+        $id_tarea = $_GET["id"];
+        echo "<script>console.log( 'id: " . $id_tarea . "' );</script>";
+        $controller->visualizarTarea($id_tarea);
         break;
     
     /*
