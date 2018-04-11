@@ -19,5 +19,16 @@ class TareaController {
         Tarea::agregarTarea($titulo, $desc, $user->getId(), $estado_id);        
         header('Location: ' . '/simplemvc/mainController.php/tareas');
     }
+
+    public function eliminarTarea($tarea_id){
+        $user = $_SESSION['user'];
+        echo "<script>console.log( 'rol: " . $user->getRol() . "' );</script>";
+        if($user->getRol() == 2){
+            Tarea::eliminarTareaUsuario($tarea_id,$user->getId());
+        }else if($user->getRol() == 1){
+            Tarea::eliminarTareaAdmin($tarea_id);
+        }
+        header('Location: ' . '/simplemvc/mainController.php/tareas');
+    }
 }
 ?>

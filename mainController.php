@@ -20,7 +20,12 @@ Config::$dbh = new PDO($dir, $usuario, $password) or die ("Error en conexion a l
 
 $baseURL = dirname($_SERVER["REQUEST_URI"]);
 $url = $_SERVER["REQUEST_URI"];
-$path = substr($url, strlen($baseURL));
+$origPath = substr($url, strlen($baseURL));
+echo "<script>console.log( 'url: " . $url . "' );";
+echo "console.log( 'origPath: " . $origPath . "' );</script>";
+$pathArray = explode("?",$origPath);
+$path = $pathArray[0];
+echo "<script>console.log( 'path: " . $path . "' );</script>";
 
 
 
@@ -80,6 +85,14 @@ switch($path) {
         $desc      = $_POST["descripcion"];
         $estado_id = $_POST["estado_id"];        
         $controller->agregarTarea($titulo, $desc, $estado_id);
+        break;
+
+    case '/borrarTarea':
+        require_login();
+        $controller = new TareaController();
+        $id_tarea = $_GET["id"];
+        echo "<script>console.log( 'id: " . $id_tarea . "' );</script>";
+        $controller->eliminarTarea($id_tarea);
         break;
     
     /*

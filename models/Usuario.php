@@ -27,7 +27,7 @@ class Usuario {
     }
 
     public function getRol() {
-        return $this->nombre;
+        return $this->rol;
     }
 
     public static function findByUsername($username) {

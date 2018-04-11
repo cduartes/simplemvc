@@ -49,6 +49,25 @@ class Tarea {
         $this->usuario     = $result_row["usuario_id"];        
     }
 
+    //firma eliminarTarea para usuarios con sesion iniciada
+    public static function eliminarTareaUsuario($tarea_id, $user_id){
+        $query = "DELETE FROM tarea WHERE tarea_id = ? AND usuario_id = ?";
+        $ps = Config::$dbh->prepare($query);
+        $res = $ps->execute(array(
+                                $tarea_id,
+                                $user_id
+        ));
+    }
+
+    //firma eliminarTarea para admin con sesion iniciada
+    public static function eliminarTareaAdmin($tarea_id){
+        $query = "DELETE FROM tarea WHERE tarea_id = ?";
+        $ps = Config::$dbh->prepare($query);
+        $res = $ps->execute(array(
+                                $tarea_id
+        ));
+    }
+
     public function getId() {
         return $this->id;
     }
