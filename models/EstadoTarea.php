@@ -16,7 +16,7 @@ class EstadoTarea {
         $result = null;
         if($res) {
             $result = $ps->fetch();
-            $result = fromRowToEstado($result);
+            $result = new EstadoTarea($result[0],$result[1]);
         }
         return $result;
     }
@@ -35,7 +35,7 @@ class EstadoTarea {
     }
 
     function __construct($id, $nombre) {
-        $this->id = $id;
+        $this->id     = $id;
         $this->nombre = $nombre;
     }
 

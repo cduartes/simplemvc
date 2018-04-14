@@ -20,6 +20,15 @@ class TareaController {
         Tarea::agregarTarea($titulo, $desc, $user->getId(), $estado_id);        
         header('Location: ' . '/simplemvc/mainController.php/tareas');
     }
+    public function actualizarTarea($tarea_id, $titulo, $desc, $estado_id){
+        $user = $_SESSION['user'];
+        if($user->getRol() == 2){
+            Tarea::actualizarTareaUsuario($tarea_id, $titulo, $desc, $estado_id, $user->getId());
+        }else if($user->getRol() == 1){
+            Tarea::actualizarTareaAdmin($tarea_id, $titulo, $desc, $estado_id);
+        }
+        header('Location: ' . '/simplemvc/mainController.php/tarea?id='.$tarea_id);
+    }
 
     public function eliminarTarea($tarea_id){
         $user = $_SESSION['user'];
@@ -33,7 +42,6 @@ class TareaController {
 
     public function visualizarTarea($tarea_id){
         $user = $_SESSION["user"];
-        echo "<script>console.log( 'rol: " . $user->getRol() . "' );</script>";
         if($user->getRol() == 2){
             $tarea = Tarea::mostrarTareaUsuario($tarea_id,$user->getId());
         }else if($user->getRol() == 1){

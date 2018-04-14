@@ -21,11 +21,11 @@ Config::$dbh = new PDO($dir, $usuario, $password) or die ("Error en conexion a l
 $baseURL = dirname($_SERVER["REQUEST_URI"]);
 $url = $_SERVER["REQUEST_URI"];
 $origPath = substr($url, strlen($baseURL));
-echo "<script>console.log( 'url: " . $url . "' );";
-echo "console.log( 'origPath: " . $origPath . "' );</script>";
+//echo "<script>console.log( 'url: " . $url . "' );";
+//echo "console.log( 'origPath: " . $origPath . "' );</script>";
 $pathArray = explode("?",$origPath);
 $path = $pathArray[0];
-echo "<script>console.log( 'path: " . $path . "' );</script>";
+//echo "<script>console.log( 'path: " . $path . "' );</script>";
 
 
 
@@ -48,7 +48,6 @@ function require_admin_login() {
 
 require("controllers/LoginController.php");
 require("controllers/TareaController.php");
-//require("controllers/DetalleTareaController.php");
 
 session_start();
 $controller = null;
@@ -92,7 +91,6 @@ switch($path) {
         require_login();
         $controller = new TareaController();
         $id_tarea = $_GET["id"];
-        echo "<script>console.log( 'id: " . $id_tarea . "' );</script>";
         $controller->eliminarTarea($id_tarea);
         break;
 
@@ -100,7 +98,14 @@ switch($path) {
         require_login();
         $controller = new TareaController();
         $id_tarea = $_GET["id"];
-        echo "<script>console.log( 'id: " . $id_tarea . "' );</script>";
+        if(isset($_POST['hidden'])){
+            $titulo    = $_POST["titulo"];
+            $desc      = $_POST["descripcion"];
+            $estado_id = $_POST["estado_id"];
+            $fecha_inicio = null;
+            $id_tarea = base64_decode($_POST["hidden"]); //tenía pensado otra cosa, pero no me funciono! :(
+            $controller->actualizarTarea($id_tarea, $titulo, $desc, $estado_id);
+        }
         $controller->visualizarTarea($id_tarea);
         break;
     
