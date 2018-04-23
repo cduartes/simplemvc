@@ -11,7 +11,7 @@ class TareasView {
                 <a href="/simplemvc/mainController.php/logout">Cerrar Sesión</a>
                 <h1>Todo Listo!</h1>
                 <h2>Crear Tarea</h2>
-
+                <div>
                     <form method="POST" action="/simplemvc/mainController.php/nuevaTarea">
                         <input type="text" name="titulo" placeholder="Titulo" />
                         <input type="text" name="descripcion" placeholder="Descripcion" />
@@ -32,7 +32,8 @@ class TareasView {
 
                         <input type="submit" value="Crear Tarea!" />
                     </form>
-
+                </div>
+                <div><a href="../mainController.php/calendario">Ir al calendario</a></div>
                 <h2>Mis tareas</h2>
 
                     <table>

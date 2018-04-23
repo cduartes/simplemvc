@@ -111,6 +111,11 @@ switch($path) {
         }
         $controller->visualizarTarea($id_tarea);
         break;
+    case '/calendario':
+        require_login();
+        $controller = new TareaController();
+        $controller->visualizarCalendario();
+        break;
     
     /*
     case '/tarea':        

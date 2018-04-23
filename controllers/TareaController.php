@@ -3,6 +3,7 @@
 require("models/Tarea.php");
 require("views/Tareas.view.php");
 require("views/DescripcionTarea.view.php");
+require("views/VistaCalendario.view.php");
 
 class TareaController {
 
@@ -52,6 +53,13 @@ class TareaController {
         $tipos   = TipoTarea::getAll();
         $tareaView = new TareaView();
         echo $tareaView->render($tarea, $estados, $tipos);
+    }
+
+    public function visualizarCalendario() {
+        $user = $_SESSION["user"];
+        $tareas = Tarea::getAllUserTareas($user);
+        $calendarioView = new CalendarioView();
+        echo $calendarioView->render($tareas);
     }
 }
 ?>
