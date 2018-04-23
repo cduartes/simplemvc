@@ -25,6 +25,7 @@ class TareaView {
                         <tr>
                             <td><input type="text" name="titulo" placeholder="Titulo" value="<?php echo $tarea->getTitulo(); ?>" /></td>
                             <td><input type="text" name="descripcion" placeholder="Descripcion" value="<?php echo $tarea->getDescripcion(); ?>" /></td>
+                            <td><input type="date" name="fecha" placeholder="Fecha" value="<?php echo $tarea->getFecha(); ?>" /></td>
                             <td>
                                 <select name="estado_id">
                                 <option disabled>Estado Tarea</option>

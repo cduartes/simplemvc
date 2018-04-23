@@ -85,7 +85,8 @@ switch($path) {
         $desc      = $_POST["descripcion"];
         $estado_id = $_POST["estado_id"];
         $tipo_id   = $_POST["tipo_id"];
-        $controller->agregarTarea($titulo, $desc, $tipo_id, $estado_id);
+        $fecha_inicio = $_POST["fecha"];
+        $controller->agregarTarea($titulo, $desc, $fecha_inicio, $tipo_id, $estado_id);
         break;
 
     case '/borrarTarea':
@@ -104,9 +105,9 @@ switch($path) {
             $desc      = $_POST["descripcion"];
             $estado_id = $_POST["estado_id"];
             $tipo_id = $_POST["tipo_id"];
-            $fecha_inicio = null;
+            $fecha_inicio = $_POST["fecha"];
             $id_tarea = base64_decode($_POST["hidden"]); //tenía pensado otra cosa, pero no me funciono! :(
-            $controller->actualizarTarea($id_tarea, $titulo, $desc, $tipo_id, $estado_id);
+            $controller->actualizarTarea($id_tarea, $titulo, $desc, $fecha_inicio, $tipo_id, $estado_id);
         }
         $controller->visualizarTarea($id_tarea);
         break;

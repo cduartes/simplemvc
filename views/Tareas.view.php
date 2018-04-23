@@ -8,13 +8,14 @@ class TareasView {
                 <title>Todo Listo! / <?php echo $_SESSION["username"];?></title>
             </head>
             <body>   
-                <a href="/simplemvc/mainController.php/logout">Cerrar Sesión</a>         
+                <a href="/simplemvc/mainController.php/logout">Cerrar Sesión</a>
                 <h1>Todo Listo!</h1>
                 <h2>Crear Tarea</h2>
 
                     <form method="POST" action="/simplemvc/mainController.php/nuevaTarea">
                         <input type="text" name="titulo" placeholder="Titulo" />
-                        <input type="text" name="descripcion" placeholder="Descripcion" />                        
+                        <input type="text" name="descripcion" placeholder="Descripcion" />
+                        <input type="date" name="fecha" placeholder="Fecha de tarea" />
                         <select name="estado_id">
                             <option selected disabled>Estado Tarea</option>
                             <?php foreach($estados as $estado) { ?>

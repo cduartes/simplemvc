@@ -16,17 +16,17 @@ class TareaController {
         echo $tareasViews->render($tareas, $estados, $tipos);
     }
     
-    public function agregarTarea($titulo, $desc, $tipo_id, $estado_id) {
+    public function agregarTarea($titulo, $desc, $fecha, $tipo_id, $estado_id) {
         $user = $_SESSION["user"];
-        Tarea::agregarTarea($titulo, $desc, $tipo_id, $user->getId(), $estado_id);        
+        Tarea::agregarTarea($titulo, $desc, $fecha, $tipo_id, $user->getId(), $estado_id);        
         header('Location: ' . '/simplemvc/mainController.php/tareas');
     }
-    public function actualizarTarea($tarea_id, $titulo, $desc, $tipo_id, $estado_id){
+    public function actualizarTarea($tarea_id, $titulo, $desc, $fecha, $tipo_id, $estado_id){
         $user = $_SESSION['user'];
         if($user->getRol() == 2){
-            Tarea::actualizarTareaUsuario($tarea_id, $titulo, $desc, $tipo_id, $estado_id, $user->getId());
+            Tarea::actualizarTareaUsuario($tarea_id, $titulo, $desc, $fecha, $tipo_id, $estado_id, $user->getId());
         }else if($user->getRol() == 1){
-            Tarea::actualizarTareaAdmin($tarea_id, $titulo, $desc, $tipo_id, $estado_id);
+            Tarea::actualizarTareaAdmin($tarea_id, $titulo, $desc, $fecha, $tipo_id, $estado_id);
         }
         header('Location: ' . '/simplemvc/mainController.php/tarea?id='.$tarea_id);
     }

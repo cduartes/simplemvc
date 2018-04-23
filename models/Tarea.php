@@ -30,7 +30,7 @@ class Tarea {
         return $result;        
     }
 
-    public static function agregarTarea($titulo, $descripcion, $tipo_id , $user_id, $estado_id) {
+    public static function agregarTarea($titulo, $descripcion, $fecha_inicio, $tipo_id , $user_id, $estado_id) {
         $query = "INSERT INTO tarea (titulo, descripcion, usuario_id, tipo_id, estado_id, fecha_inicio) VALUES (?, ?, ?, ?, ?, ?)";
         $ps    = Config::$dbh->prepare($query);
         $res   = $ps->execute(array(
@@ -39,12 +39,12 @@ class Tarea {
                         $user_id,
                         $tipo_id,                        
                         $estado_id,
-                        "2018-03-03"
+                        $fecha_inicio,
         ));
       
     }
 
-    public static function actualizarTareaUsuario($tarea_id, $titulo, $descripcion, $tipo_id, $estado_id, $user_id){
+    public static function actualizarTareaUsuario($tarea_id, $titulo, $descripcion, $fecha_inicio, $tipo_id, $estado_id, $user_id){
         echo "<script>console.log( 'estado: ". $estado_id." +  user_id". $user_id ." ' );</script>";
         $query = "UPDATE tarea SET titulo = ?, descripcion = ?, estado_id = ?, tipo_id = ?, fecha_inicio = ? WHERE tarea_id = ? AND usuario_id = ?";
         echo "<script>console.log( 'actualizarq2' );</script>";
@@ -54,14 +54,14 @@ class Tarea {
                         $descripcion,
                         $estado_id,
                         $tipo_id,
-                        "2018-04-13",
+                        $fecha_inicio,
                         $tarea_id,
                         $user_id
         ));
         //echo "<script>console.log( 'res " . $res ."' );</script>";
     }
 
-    public static function actualizarTareaAdmin($tarea_id, $titulo, $descripcion, $tipo_id, $estado_id){
+    public static function actualizarTareaAdmin($tarea_id, $titulo, $descripcion, $fecha_inicio, $tipo_id, $estado_id){
         //echo "<script>console.log( 'estado: ". $estado_id." ' );</script>";
         $query = "UPDATE tarea SET titulo = ?, descripcion = ?, estado_id = ?, tipo_id = ?, fecha_inicio = ? WHERE tarea_id = ?";
        // echo "<script>console.log( 'actualizarq2' );</script>";
@@ -71,7 +71,7 @@ class Tarea {
                         $descripcion,
                         $estado_id,
                         $tipo_id,
-                        "2018-04-13",
+                        $fecha_inicio,
                         $tarea_id
         ));
         echo "<script>console.log( 'res " . $res ."' );</script>";
