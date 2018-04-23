@@ -1,6 +1,7 @@
 <?php 
 
 require("EstadoTarea.php");
+require("TipoTarea.php");
 
 class Tarea {
     private $id;
@@ -8,6 +9,7 @@ class Tarea {
     private $descripcion;    
     private $fecha_inicio;
     private $estado;
+    private $tipo;
     private $usuario;
 
     private static function fromRowToTarea($row) {
@@ -28,21 +30,21 @@ class Tarea {
         return $result;        
     }
 
-    public static function agregarTarea($titulo, $descripcion, $user_id, $estado_id) {
+    public static function agregarTarea($titulo, $descripcion, $tipo_id , $user_id, $estado_id) {
         $query = "INSERT INTO tarea (titulo, descripcion, usuario_id, tipo_id, estado_id, fecha_inicio) VALUES (?, ?, ?, ?, ?, ?)";
         $ps    = Config::$dbh->prepare($query);
         $res   = $ps->execute(array(
                         $titulo,
                         $descripcion,
                         $user_id,
-                        null,                        
+                        $tipo_id,                        
                         $estado_id,
                         "2018-03-03"
         ));
       
     }
 
-    public static function actualizarTareaUsuario($tarea_id, $titulo, $descripcion, $estado_id, $user_id){
+    public static function actualizarTareaUsuario($tarea_id, $titulo, $descripcion, $tipo_id, $estado_id, $user_id){
         echo "<script>console.log( 'estado: ". $estado_id." +  user_id". $user_id ." ' );</script>";
         $query = "UPDATE tarea SET titulo = ?, descripcion = ?, estado_id = ?, tipo_id = ?, fecha_inicio = ? WHERE tarea_id = ? AND usuario_id = ?";
         echo "<script>console.log( 'actualizarq2' );</script>";
@@ -51,24 +53,24 @@ class Tarea {
                         $titulo,
                         $descripcion,
                         $estado_id,
-                        null,
+                        $tipo_id,
                         "2018-04-13",
                         $tarea_id,
                         $user_id
         ));
-        echo "<script>console.log( 'res " . $res ."' );</script>";
+        //echo "<script>console.log( 'res " . $res ."' );</script>";
     }
 
-    public static function actualizarTareaAdmin($tarea_id, $titulo, $descripcion, $estado_id){
-        echo "<script>console.log( 'estado: ". $estado_id." ' );</script>";
+    public static function actualizarTareaAdmin($tarea_id, $titulo, $descripcion, $tipo_id, $estado_id){
+        //echo "<script>console.log( 'estado: ". $estado_id." ' );</script>";
         $query = "UPDATE tarea SET titulo = ?, descripcion = ?, estado_id = ?, tipo_id = ?, fecha_inicio = ? WHERE tarea_id = ?";
-        echo "<script>console.log( 'actualizarq2' );</script>";
+       // echo "<script>console.log( 'actualizarq2' );</script>";
         $ps    = Config::$dbh->prepare($query);
         $res   = $ps->execute(array(
                         $titulo,
                         $descripcion,
                         $estado_id,
-                        null,
+                        $tipo_id,
                         "2018-04-13",
                         $tarea_id
         ));
@@ -81,7 +83,8 @@ class Tarea {
         $this->descripcion  = $result_row["descripcion"];        
         $this->fecha_inicio = $result_row["fecha_inicio"];
         $this->estado       = $result_row["estado_id"];
-        $this->usuario      = $result_row["usuario_id"];        
+        $this->tipo         = $result_row["tipo_id"];
+        $this->usuario      = $result_row["usuario_id"];
     }
 
     //firma eliminarTarea para usuarios con sesion iniciada
@@ -158,8 +161,15 @@ class Tarea {
         return EstadoTarea::getById($this->estado);
     }
 
+    public function getTipo() {
+        return TipoTarea::getById($this->tipo);
+    }
     public function getUsuarioId(){
         return $this->usuario;
+    }
+
+    public function getUsuario(){
+        return Usuario::getById($this->usuario);
     }
 }
 

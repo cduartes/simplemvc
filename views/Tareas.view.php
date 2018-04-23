@@ -2,7 +2,7 @@
 
 class TareasView {
 
-    public function render($paramTareas, $estados) { ?>
+    public function render($paramTareas, $estados, $tipos) { ?>
         <html>
             <head>
                 <title>Todo Listo! / <?php echo $_SESSION["username"];?></title>
@@ -19,6 +19,13 @@ class TareasView {
                             <option selected disabled>Estado Tarea</option>
                             <?php foreach($estados as $estado) { ?>
                                 <option value="<?php echo $estado->getId(); ?>"><?php echo $estado->getNombre(); ?></option>
+                            <?php } ?>
+                        </select>
+
+                        <select name="tipo_id">
+                            <option selected disabled>Tipo Tarea</option>
+                            <?php foreach($tipos as $tipo) { ?>
+                                <option value="<?php echo $tipo->getId(); ?>"><?php echo $tipo->getNombre(); ?></option>
                             <?php } ?>
                         </select>
 

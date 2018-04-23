@@ -2,7 +2,7 @@
 
 class TareaView {
 
-    public function render($tarea, $estados) { ?>
+    public function render($tarea, $estados, $tipos) { ?>
         <html>
             <head>
                 <title>Todo Listo! / <?php echo $_SESSION["username"];?></title>
@@ -34,6 +34,20 @@ class TareaView {
                                         echo '<option selected="selected" value="'.$estado->getId().'">'.$estado->getNombre().'</option>';
                                     }else{
                                         echo '<option value="'.$estado->getId().'">'.$estado->getNombre().'</option>';
+                                    }
+                                }
+                                ?>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="tipo_id">
+                                <option disabled>Tipo Tarea</option>
+                                <?php
+                                foreach($tipos as $tipo) {
+                                    if($tarea->getTipo()->getId() == $tipo->getId()){
+                                        echo '<option selected="selected" value="'.$tipo->getId().'">'.$tipo->getNombre().'</option>';
+                                    }else{
+                                        echo '<option value="'.$tipo->getId().'">'.$tipo->getNombre().'</option>';
                                     }
                                 }
                                 ?>
