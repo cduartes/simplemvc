@@ -16,7 +16,11 @@ class LoginController {
         if($user != null) {
             $_SESSION["username"] = $username;
             $_SESSION["user"] = $user;
-            header('Location: ' . '/simplemvc/mainController.php/tareas');            
+            if($user->getRol() == 1){
+                header('Location: ' . '/simplemvc/mainController.php/administracion');            
+            }else{
+                header('Location: ' . '/simplemvc/mainController.php/tareas');            
+            }
         } else {
             echo "No se encontro el usuario con el nombre indicado";
         }

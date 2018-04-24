@@ -33,15 +33,33 @@ $path = $pathArray[0];
 // Funciones auxiliares para restringir acceso
 // a usuarios logeados, y a usuarios administradores
 
+function require_user_login() {
+    if(isset($_SESSION["username"])){
+        $user = Usuario::findByUsername($_SESSION["username"]);
+            if($user->getRol() == 2)
+                return true;
+            else
+                die("Administracion no tiene acceso.");
+    }else{
+        die("Requiere usuario autentificado");
+    }
+}
+
 function require_login() {
     return isset($_SESSION["username"]) or die("Requiere usuario autentificado");
 }
 
 function require_admin_login() {
-    /* POR IMPLEMENTAR */
+    if(isset($_SESSION["username"])){
+        $user = Usuario::findByUsername($_SESSION["username"]);
+            if($user->getRol() == 1)
+                return true;
+            else
+            die("Requiere usuario administrador autentificado.");
+    }else{
+        die("Requiere usuario administrador autentificado");
+    }
 }
-
-
 /*******************************************************/
 // Mapeo de URL a acciones específicas de controladores
 // Esto se conoce como "routing" o ruteo
@@ -72,14 +90,20 @@ switch($path) {
         $controller->logout();
         break;  
     
+    case '/administracion':
+        require_admin_login();
+        $controller = new TareaController();
+        $controller->listadoTareas();
+        break;
+
     case '/tareas':
-        require_login();
+        require_user_login();
         $controller = new TareaController();
         $controller->listadoTareas();
         break;
     
     case '/nuevaTarea':
-        require_login();
+        require_user_login();
         $controller = new TareaController();        
         $titulo    = $_POST["titulo"];
         $desc      = $_POST["descripcion"];
@@ -90,7 +114,7 @@ switch($path) {
         break;
 
     case '/borrarTarea':
-        require_login();
+        require_user_login();
         $controller = new TareaController();
         $id_tarea = $_GET["id"];
         $controller->eliminarTarea($id_tarea);
@@ -116,16 +140,6 @@ switch($path) {
         $controller = new TareaController();
         $controller->visualizarCalendario();
         break;
-    
-    /*
-    case '/tarea':        
-        break;
-    */
-
-    /*
-    case 'calendario':        
-        break;
-    */  
 
     default:
         header('HTTP/1.1 404 Not Found');        

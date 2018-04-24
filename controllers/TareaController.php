@@ -3,18 +3,28 @@
 require("models/Tarea.php");
 require("views/Tareas.view.php");
 require("views/DescripcionTarea.view.php");
+require("views/Administracion.view.php");
 require("views/VistaCalendario.view.php");
 
 class TareaController {
 
     public function listadoTareas() {
         $user = $_SESSION["user"];
-        $tareas = Tarea::getAllUserTareas($user);        
-        $estados = EstadoTarea::getAll();
-        $tipos   = TipoTarea::getAll();
-
-        $tareasViews = new TareasView();
-        echo $tareasViews->render($tareas, $estados, $tipos);
+        
+        if($user->getRol() == 2){
+            $tareas = Tarea::getAllUserTareas($user);
+            $estados = EstadoTarea::getAll();
+            $tipos   = TipoTarea::getAll();
+            $tareasViews = new TareasView();
+            echo $tareasViews->render($tareas, $estados, $tipos);
+        }else{
+            $usuarios = Usuario::getAllUsers();
+            foreach($usuarios as $usuario){
+                $tareas[$usuario->getId()] = Tarea::contarTareasUsuario($usuario->getId());
+            }
+            $adminView = new AdministracionView();
+            echo $adminView->render($usuarios, $tareas);
+        }
     }
     
     public function agregarTarea($titulo, $desc, $fecha, $tipo_id, $estado_id) {
