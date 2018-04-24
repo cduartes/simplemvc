@@ -20,7 +20,7 @@ class Tarea {
         $query = "SELECT * FROM tarea WHERE usuario_id = ?";
         $ps    = Config::$dbh->prepare($query);
         $user_id = $user->getId();
-        $res   = $ps->execute(array(1));
+        $res   = $ps->execute(array($user_id));
         $result = array();
         if($res) {
             $result = $ps->fetchAll();
@@ -28,6 +28,19 @@ class Tarea {
         }
 
         return $result;        
+    }
+
+    public static function getAllTareas() {
+        $query = "SELECT * FROM tarea";
+        $ps    = Config::$dbh->prepare($query);
+        $res   = $ps->execute();
+        $result = array();
+        if($res) {
+            $result = $ps->fetchAll();
+            $result = array_map([Tarea::class, 'fromRowToTarea'], $result);
+        }
+
+        return $result;    
     }
 
     public static function agregarTarea($titulo, $descripcion, $fecha_inicio, $tipo_id , $user_id, $estado_id) {
@@ -130,6 +143,16 @@ class Tarea {
         if($res){
             $result = new Tarea($ps->fetch());
         }
+        return $result;
+    }
+
+    public static function contarTareasUsuario($user_id){
+        $query = "SELECT COUNT(tarea_id) FROM tarea WHERE usuario_id = ?";
+        $ps = Config::$dbh->prepare($query);
+        $res = $ps->execute(array($user_id));
+        $result = 0;
+        if($res)
+            $result = $ps->fetch()[0];
         return $result;
     }
 

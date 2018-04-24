@@ -7,6 +7,10 @@ class Usuario {
     private $email;
     private $rol;
 
+    public static function fromRowToUsuario($row) {
+        return new Usuario($row);
+    }
+
     function __construct($result_row) {
         $this->id     = $result_row["usuario_id"];
         $this->nombre = $result_row["nombre"];
@@ -41,6 +45,19 @@ class Usuario {
             if($userRow) {
                 $result = new Usuario($userRow);
             }
+        } 
+
+        return $result;
+    }
+
+    public static function getAllUsers() {
+        $query = "SELECT * FROM usuario";
+        $ps    = Config::$dbh->prepare($query);
+        $res   = $ps->execute();        
+        $result = null;
+        if($res) {
+            $result = $ps->fetchAll();
+            $result = array_map([Usuario::class, 'fromRowToUsuario'], $result);
         } 
 
         return $result;
