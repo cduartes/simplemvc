@@ -6,6 +6,7 @@ class TareasView {
         <html>
             <head>
                 <title>Todo Listo! / <?php echo $_SESSION["username"];?></title>
+                
             </head>
             <body>   
                 <a href="/simplemvc/mainController.php/logout">Cerrar Sesión</a>
